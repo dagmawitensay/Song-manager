@@ -7,16 +7,21 @@ import AddIcon from "@mui/icons-material/Add";
 import Form from "./form";
 
 const Logo = styled.img`
-  width: 200px;
+  max-width: 200px;
   height:100px;
+  width: 100%;
   padding: 15px 0px 10px 40px;
+
 `;
 
 const Header = styled.header`
   background-color: #04364a;
   display: grid;
   grid-template-columns: 1fr 8fr;
+  z-index: -1;
+  width: 100%;
 `;
+
 
 const CardContainer = styled.div`
   width: 75%;
@@ -25,10 +30,10 @@ const CardContainer = styled.div`
   flex-wrap: wrap;
   padding: 50px 0;
   gap: 30px;
+  z-index: -1;
 `;
 
 const Body = styled.div`
-  ${'' /* background-color: #e9fcff; */}
   margin: 0px;
 `;
 
@@ -45,6 +50,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  ${'' /* z-index: -1; */}
 `;
 const Add = styled(AddIcon)`
   position: sticky;

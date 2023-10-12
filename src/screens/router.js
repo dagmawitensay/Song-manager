@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./Home";
-import PlayScreen from "./Player";
+import AudioPlayer from "./Player";
 
 const router = createBrowserRouter([
     {
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/play/:id',
-        element: <PlayScreen />
+        element: <AudioPlayer />
     }
 ])
 
