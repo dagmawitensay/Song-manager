@@ -3,13 +3,15 @@ import styled from "@emotion/styled";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { useNavigate } from "react-router";
 
 const Container = styled.div`
   border-radius: 10px;
   height: 370px;
   width: 350px;
   margin: 0 auto;
-  background-color: #9aaebb;
+  ${"" /* background-color: #9aaebb; */}
+  box-shadow: 0 0 28px rgba(0, 0, 0, 0.2);
 `;
 const Image = styled.img`
   height: 200px;
@@ -18,11 +20,9 @@ const Image = styled.img`
 `;
 
 const Title = styled.h2`
-  padding: 0 10px;
 `;
 
 const Description = styled.p`
-  padding: 0 10px;
 `;
 
 const IconContainer = styled.span`
@@ -31,31 +31,46 @@ const IconContainer = styled.span`
   justify-content: center;
 `;
 
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
 const Delete = styled(DeleteIcon)`
   color: red;
   padding: 0 20px;
+  cursor: pointer;
 `;
 
 const Edit = styled(EditIcon)`
   color: green;
   padding: 0 20px;
+  cursor: pointer;
 `;
 
 const Play = styled(PlayCircleIcon)`
   padding: 0 20px;
+  cursor: pointer;
 `;
 
-export default function Card() {
+export default function Card(props) {
+  const navigate = useNavigate();
   return (
     <Container>
-      <Image src="https://source.unsplash.com/user/c_v_r/1900x800" />
-      <Title>Lorem Ipsum</Title>
-      <Description>This song is written by Justin Bibber</Description>
-      {/* <DeleteIcon /color="disabled" /> */}
+      <Image
+        src={props.imagesrc}
+        alt={`track artwork for ${props.title} by ${props.artist}`}
+      />
+      <ContentContainer>
+        <Title>{props.title}</Title>
+        <Description>{props.artist}</Description>
+      </ContentContainer>
       <IconContainer>
-        <Edit fontSize="large"/>
-        <Delete fontSize="large"/>
-        <Play fontSize="large"/>
+        <Edit fontSize="large" />
+        <Delete fontSize="large" />
+        <Play fontSize="large" onClick={() => {navigate(`/play/${props.id}`)}}/>
       </IconContainer>
     </Container>
   );

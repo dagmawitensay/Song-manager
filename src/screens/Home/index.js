@@ -5,6 +5,7 @@ import logo from "../../Rythmix-logos/Rythmix-logos_transparent3.png";
 import Card from "./card";
 import AddIcon from "@mui/icons-material/Add";
 import Form from "./form";
+import tracks from "../tracks";
 
 const Logo = styled.img`
   max-width: 200px;
@@ -13,9 +14,10 @@ const Logo = styled.img`
   padding: 15px 0px 10px 40px;
 
 `;
+// #04364a
 
 const Header = styled.header`
-  background-color: #04364a;
+  background-color: #045B4E;
   display: grid;
   grid-template-columns: 1fr 8fr;
   z-index: -1;
@@ -86,12 +88,9 @@ export default function Home() {
       </Header>
 
       <CardContainer>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+      {
+        tracks.map((track) => <Card imagesrc={track.artwork} title={track.title} artist={track.artist} id={track.id}/>)
+      }
       </CardContainer>
       <Form modalIsOpen={modalIsOpen} closeModal={closeModal}/>
       <Button onClick={openMoadl}>

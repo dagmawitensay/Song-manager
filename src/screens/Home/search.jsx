@@ -27,7 +27,7 @@ const Container = styled.div`
 export default function Input() {
     return (
       <Container>
-        <InputComponent />
+        <InputComponent placeholder="Search"/>
       </Container>
     )
 }
