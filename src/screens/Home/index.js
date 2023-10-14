@@ -12,16 +12,15 @@ const Logo = styled.img`
   max-width: 200px;
   height:100px;
   width: 100%;
-  padding: 15px 0px 10px 40px;
+  padding: 15px 0px 10px 32px;
 
 `;
-// #04364a
 
 const Header = styled.header`
   background-color: #045B4E;
-  display: grid;
-  grid-template-columns: 1fr 8fr;
-  z-index: -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   width: 100%;
 `;
 

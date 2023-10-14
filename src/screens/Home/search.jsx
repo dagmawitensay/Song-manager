@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 
 
 const InputComponent = styled.input`
-  margin: 0 auto;
   max-width: 800px;
   width: 100%;
   font-size: 20px;
@@ -23,7 +22,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  flex: 1;
+  
 `
 
 export default function Input() {

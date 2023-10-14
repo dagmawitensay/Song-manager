@@ -62,7 +62,7 @@ export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const allSongs = useSelector((state) => state.allSongs.allSongs);
-  const { title, artist, artwork, url, songId } = allSongs.data[trackIndex - 1];
+  const { title, artist, artwork, url, songId } = allSongs.data[(trackIndex - 1) == -1 ? 0: trackIndex - 1];
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
@@ -85,20 +85,17 @@ export default function AudioPlayer() {
   };
 
   const toPrevTrack = () => {
-    if (trackIndex - 1 < 0) {
-      setTrackIndex(allSongs.data.length - 1);
-    } else {
-      setTrackIndex(trackIndex - 1);
-    }
+    console.log(trackIndex)
+    setTrackIndex(
+      (trackIndex - 1 + allSongs.data.length) % allSongs.data.length
+    );
+
   };
 
   const toNextTrack = () => {
-    if (trackIndex + 1 > allSongs.data.length) {
-      setTrackIndex(0);
-    } else {
-      setTrackIndex(trackIndex + 1);
-    }
-  };
+    console.log(trackIndex)
+    setTrackIndex((trackIndex + 1) % allSongs.data.length);
+    };
   useEffect(() => {
     if (isPlaying) {
       audioRef.current.play();
@@ -123,8 +120,8 @@ export default function AudioPlayer() {
     setTrackProgress(audioRef.current.currentTime);
     if (isReady.current) {
 
-    //   audioRef.current.play();
-    //   setIsPlaying(true);
+    audioRef.current.play();
+    setIsPlaying(true);
       startTimer();
     } else {
       isReady.current = true;
