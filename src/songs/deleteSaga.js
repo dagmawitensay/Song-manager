@@ -4,7 +4,7 @@ import { put, takeLatest } from "redux-saga/effects";
 
 function* deleteSaga({id}) {
     try{
-    const response = yield axios.delete();
+    const response = yield axios.delete(`http://localhost:8000/songs/${id}`);
     yield put(deleteSongSuccessAction(response.data))
     } catch (error) {
         yield put(deleteSongFailureAction(error))
@@ -12,5 +12,5 @@ function* deleteSaga({id}) {
 }
 
 export function* watchDeleteSongSaga( ) {
-    yield takeLatest('delete_song', deleteSaga)
+    yield takeLatest('DELETE_SONG_BY_ID', deleteSaga)
 }

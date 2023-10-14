@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./search";
 import styled from "@emotion/styled";
 import logo from "../../Rythmix-logos/Rythmix-logos_transparent3.png";
 import Card from "./card";
 import AddIcon from "@mui/icons-material/Add";
 import Form from "./form";
-import tracks from "../tracks";
+import Spin from "./spin";
+import { useDispatch, useSelector } from "react-redux";
 
 const Logo = styled.img`
   max-width: 200px;
@@ -37,6 +38,7 @@ const CardContainer = styled.div`
 
 const Body = styled.div`
   margin: 0px;
+  background-color: #fffdfc;
 `;
 
 const Button = styled.button`
@@ -56,7 +58,7 @@ const Button = styled.button`
 `;
 const Add = styled(AddIcon)`
   position: sticky;
-  background-color: #04364a;
+  background-color: #045b4e;
   color: #f7e108;
   left: 1400px;
   bottom: 40px;
@@ -71,14 +73,25 @@ const Add = styled(AddIcon)`
 
 export default function Home() {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [status, setStatus]  = useState(false);
+  const [currID, setCurrId] = useState(0);
+  const dispatch = useDispatch();
+  const allSongs = useSelector((state) => state.allSongs.allSongs);
+  useEffect(() => {
+    dispatch({ type: "GET_ALL_SONGS" });
+  }, [])
 
-  function openMoadl(){
+  function openModal(status, currID){
+    setStatus(status);
+    setCurrId(currID);
     setIsOpen(true);
   }
 
   function closeModal() {
     setIsOpen(false);
   }
+  console.log(allSongs)
+
 
   return (
     <Body>
@@ -88,12 +101,23 @@ export default function Home() {
       </Header>
 
       <CardContainer>
-      {
-        tracks.map((track) => <Card imagesrc={track.artwork} title={track.title} artist={track.artist} id={track.id}/>)
-      }
+        {allSongs.isLoading ? (
+          <Spin />
+        ) : (
+          allSongs.data.map((track) => (
+            <Card
+              openModal={openModal}
+              imagesrc={track.artwork}
+              title={track.title}
+              artist={track.artist}
+              songId={track.songId}
+              key={track.songId}
+            />
+          ))
+        )}
       </CardContainer>
-      <Form modalIsOpen={modalIsOpen} closeModal={closeModal}/>
-      <Button onClick={openMoadl}>
+      <Form modalIsOpen={modalIsOpen} closeModal={closeModal} status={status} currId={currID} tracksLength={allSongs.data.length}/>
+      <Button onClick={() => openModal(false, 0)}>
         <Add />
       </Button>
     </Body>

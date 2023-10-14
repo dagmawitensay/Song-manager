@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
 background-color: rgba(0, 0, 0, 0.5);
@@ -61,42 +62,107 @@ const Button = styled.button`
 `
 
 export default function Form(props) {
-  if (!props.modalIsOpen) return null;
+
+  const [formValues, setFormValues] = useState({
+    title: "",
+    artist: "",
+    artwork: "",
+    url: "",
+  });
+  const dispatch = useDispatch();
+  const song = useSelector((state) => state.song.song)
+
+  useEffect(() => {
+    if (props.status) {
+      dispatch({ type: "GET_SONG_BY_ID", id: props.currId });
+    } else {
+      console.log(song.data)
+    }
+  }, [props.status, props.currId,]);
+
+  useEffect(() => {
+    if (props.status) {
+      setFormValues({
+        title: song.data ? song.data.title : "",
+        artist: song.data ? song.data.artist : "",
+        artwork: song.data ? song.data.artwork : "",
+        url: song.data ? song.data.url : "",
+      });
+    }
+  }, [song.data, props.status]);
+
+  const handleCloseForm = () => {
+    setFormValues({
+      title: "",
+      artist: "",
+      artwork: "",
+      url: "",
+    });
+
+    props.closeModal();
+  };
+
+  const handleChange = (event) => {
+    const {name, value}  = event.target;
+    setFormValues((prevValues) => {
+      return {
+        ...prevValues,
+        [name]: value,
+        songId: `${props.tracksLength + 1}`,
+      };
+    })
+  }
+
+  const handleSubmit = () => {
+    if (props.status){
+      dispatch({type: 'UPDATE_SONG_BY_ID', id: props.currId, song: formValues})
+    }else{
+      dispatch({type: 'CREATE_SONG', song: formValues})
+    }
+  }
+
+   if (!props.modalIsOpen) return null;
   return (
     <Container onClick={props.closeModal}>
       <FormModal
         onClick={(e) => {e.stopPropagation()}}
         isOpen={props.modalIsOpen}
-        onAfterCose={props.closeModal}
-        onRequestClose={props.closeModal}
       >
         <FormField>
           <label>Song Name</label>
           <InputField
-            value={props.values ? props.values.songName : ""}
+          name="title"
+          value={formValues.title}
+          onChange={handleChange}
           ></InputField>
           <label>Arist Name</label>
           <InputField
-            value={props.values ? props.values.artistName : ""}
+          name="artist"
+          value={formValues.artist}
+          onChange={handleChange}
           ></InputField>
           <label>Song url</label>
           <InputField
-            value={props.values ? props.values.songUrl : ""}
+          name="url"
+          value={formValues.url}
+          onChange={handleChange}
           ></InputField>
           <label>Image url</label>
           <InputField
-            value={props.values ? props.values.imageUrl : ""}
+          name="artwork"
+          value={formValues.artwork}
+          onChange={handleChange}
           ></InputField>
           <ButtonContainer>
             <Button
-              onClick={props.closeModal}
+              onClick={handleCloseForm}
               color="white"
               backgroundColor="red"
             >
               Close
             </Button>
-            <Button color="white" backgroundColor="green">
-              Add
+            <Button color="white" backgroundColor="green" onClick={handleSubmit}>
+              {props.status? "Update":  "Add"}
             </Button>
           </ButtonContainer>
         </FormField>

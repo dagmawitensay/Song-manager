@@ -6,9 +6,9 @@ import {
 } from "../slices/slices";
 import axios from 'axios';
 
-function* createSongSaga() {
+function* createSongSaga({song}) {
     try {
-        const response = yield axios.post();
+        const response = yield axios.post(`http://localhost:8000/songs/`, song);
         yield put(createSongSuccessAction(response.data));
     } catch (error) {
         yield put(createSongFailureAction(error));    
@@ -16,5 +16,5 @@ function* createSongSaga() {
 }
 
 export function* watchCreateSongSaga() {
-    yield takeLatest('create_song', createSongSaga);
+    yield takeLatest('CREATE_SONG', createSongSaga);
 }

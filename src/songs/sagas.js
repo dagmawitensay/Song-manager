@@ -4,9 +4,11 @@ import axios from "axios";
 import { put, takeLatest } from "redux-saga/effects";
 import { getSongErrorAction, getSongSuccessAction } from "../slices/slices";
 
-function* getSongSaga({ payload: id }) {
+function* getSongSaga({ id }) {
+  console.log(id)
   try {
-    const response = yield axios.get();
+    console.log("I am here")
+    const response = yield axios.get(`http://localhost:8000/songs/${id}`);
     yield put(getSongSuccessAction(response.data));
   } catch (error) {
     yield put(getSongErrorAction(error));

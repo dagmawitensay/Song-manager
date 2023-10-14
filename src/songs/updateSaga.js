@@ -3,9 +3,10 @@ import {put, takeLatest} from 'redux-saga/effects';
 import { updateSongFailureAction, updateSongSuccessAction } from '../slices/slices';
 
 
-function* updateSongSaga() {
+function* updateSongSaga({id, song}) {
     try {
-        const response = yield axios.patch();
+        const response = yield axios.put(`http://localhost:8000/songs/${id}`, song);
+        console.log(response.data)
         yield put(updateSongSuccessAction(response.data));
     } catch(error) {
         yield put(updateSongFailureAction(error));
@@ -13,5 +14,6 @@ function* updateSongSaga() {
 }
 
 export function* watchUpdateSongSaga() {
-    yield takeLatest('update_song', updateSongSaga);
+    console.log("got a request")
+    yield takeLatest('UPDATE_SONG_BY_ID', updateSongSaga);
 }

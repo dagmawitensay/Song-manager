@@ -4,6 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div`
   border-radius: 10px;
@@ -36,7 +37,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`
+  color: #031419;
+`;
 
 const Delete = styled(DeleteIcon)`
   color: red;
@@ -57,6 +59,7 @@ const Play = styled(PlayCircleIcon)`
 
 export default function Card(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Container>
       <Image
@@ -68,9 +71,13 @@ export default function Card(props) {
         <Description>{props.artist}</Description>
       </ContentContainer>
       <IconContainer>
-        <Edit fontSize="large" />
-        <Delete fontSize="large" />
-        <Play fontSize="large" onClick={() => {navigate(`/play/${props.id}`)}}/>
+        <Edit fontSize="large" onClick={() => props.openModal(true, props.songId)}/>
+        <Delete fontSize="large" onClick={() => {
+          dispatch({type: 'DELETE_SONG_BY_ID', id: props.songId});
+          window.location.reload();
+          }
+          }/>
+        <Play fontSize="large" onClick={() => {navigate(`/play/${props.songId}`)}}/>
       </IconContainer>
     </Container>
   );

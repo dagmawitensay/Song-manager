@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useRef, useState } from "react";
 import AudioControls from "./audioControls";
-import tracks from "../tracks";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 const Button = styled.button`
   background: none;
@@ -55,17 +56,25 @@ const Artist = styled.h3`
 
 
 export default function AudioPlayer() {
-  const [trackIndex, setTrackIndex] = useState(0);
+  const { id } = useParams();
+  const [trackIndex, setTrackIndex] = useState(id);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { title, artist, artwork, url, id } = tracks[trackIndex];
+  const allSongs = useSelector((state) => state.allSongs.allSongs);
+  const { title, artist, artwork, url, songId } = allSongs.data[trackIndex - 1];
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "GET_ALL_SONGS" });
+  }, []);
+
 
   const startTimer = () => {
-    clearInterval(intervalRef.curret);
+    clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       if (audioRef.current.ended) {
         toNextTrack();
@@ -77,14 +86,14 @@ export default function AudioPlayer() {
 
   const toPrevTrack = () => {
     if (trackIndex - 1 < 0) {
-      setTrackIndex(tracks.length - 1);
+      setTrackIndex(allSongs.data.length - 1);
     } else {
       setTrackIndex(trackIndex - 1);
     }
   };
 
   const toNextTrack = () => {
-    if (trackIndex + 1 > tracks.length) {
+    if (trackIndex + 1 > allSongs.data.length) {
       setTrackIndex(0);
     } else {
       setTrackIndex(trackIndex + 1);
