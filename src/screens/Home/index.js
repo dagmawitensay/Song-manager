@@ -72,15 +72,15 @@ const Add = styled(AddIcon)`
 
 export default function Home() {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [status, setStatus]  = useState(false);
+  const [status, setStatus] = useState(false);
   const [currID, setCurrId] = useState(0);
   const dispatch = useDispatch();
   const allSongs = useSelector((state) => state.allSongs.allSongs);
   useEffect(() => {
     dispatch({ type: "GET_ALL_SONGS" });
-  }, [])
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function openModal(status, currID){
+  function openModal(status, currID) {
     setStatus(status);
     setCurrId(currID);
     setIsOpen(true);
@@ -89,8 +89,7 @@ export default function Home() {
   function closeModal() {
     setIsOpen(false);
   }
-  console.log(allSongs)
-
+  console.log(allSongs);
 
   return (
     <Body>
@@ -115,7 +114,13 @@ export default function Home() {
           ))
         )}
       </CardContainer>
-      <Form modalIsOpen={modalIsOpen} closeModal={closeModal} status={status} currId={currID} tracksLength={allSongs.data.length}/>
+      <Form
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        status={status}
+        currId={currID}
+        tracksLength={allSongs.data.length}
+      />
       <Button onClick={() => openModal(false, 0)}>
         <Add />
       </Button>

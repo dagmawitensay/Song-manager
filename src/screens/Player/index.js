@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import AudioControls from "./audioControls";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -57,7 +57,8 @@ export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const allSongs = useSelector((state) => state.allSongs.allSongs);
-  const { title, artist, artwork, url} = allSongs.data[(trackIndex - 1) === -1 ? 0: trackIndex - 1];
+  const { title, artist, artwork, url } =
+    allSongs.data[trackIndex - 1 === -1 ? 0 : trackIndex - 1];
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
@@ -67,8 +68,11 @@ export default function AudioPlayer() {
     dispatch({ type: "GET_ALL_SONGS" });
   }, [dispatch]);
 
+  const toNextTrack = useCallback(() => {
+    setTrackIndex((trackIndex + 1) % allSongs.data.length);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       if (audioRef.current.ended) {
@@ -76,21 +80,15 @@ export default function AudioPlayer() {
       } else {
         setTrackProgress(audioRef.current.currentTime);
       }
-    }, [1000, startTimer]);
-  };
+    }, [1000]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [toNextTrack]);
 
   const toPrevTrack = () => {
-    console.log(trackIndex)
     setTrackIndex(
       (trackIndex - 1 + allSongs.data.length) % allSongs.data.length
     );
-
   };
 
-  const toNextTrack = () => {
-    console.log(trackIndex)
-    setTrackIndex((trackIndex + 1) % allSongs.data.length);
-    };
   useEffect(() => {
     if (isPlaying) {
       audioRef.current.play();
@@ -99,7 +97,7 @@ export default function AudioPlayer() {
       clearInterval(intervalRef.current);
       audioRef.current.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     return () => {
@@ -114,9 +112,8 @@ export default function AudioPlayer() {
 
     setTrackProgress(audioRef.current.currentTime);
     if (isReady.current) {
-
-    audioRef.current.play();
-    setIsPlaying(true);
+      audioRef.current.play();
+      setIsPlaying(true);
       startTimer();
     } else {
       isReady.current = true;
