@@ -78,7 +78,7 @@ export default function Form(props) {
     } else {
       console.log(song.data)
     }
-  }, [props.status, props.currId,]);
+  }, [props.status, props.currId, dispatch, song.data]);
 
   useEffect(() => {
     if (props.status) {

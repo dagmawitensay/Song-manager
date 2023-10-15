@@ -1,6 +1,6 @@
 import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
-import { getAllSongsAction, getAllSongsSuccessAction, getAllSongsFailureAction } from "../slices/getSongsslice";
+import { getAllSongsSuccessAction, getAllSongsFailureAction } from "../slices/getSongsslice";
 
 function* getSongsSaga(){
     try {

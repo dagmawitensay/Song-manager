@@ -4,11 +4,6 @@ import AudioControls from "./audioControls";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-const Button = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
 
 const Container = styled.div`
   background-color: #045b4e;
@@ -62,7 +57,7 @@ export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const allSongs = useSelector((state) => state.allSongs.allSongs);
-  const { title, artist, artwork, url, id } = allSongs.data[(trackIndex - 1) == -1 ? 0: trackIndex - 1];
+  const { title, artist, artwork, url} = allSongs.data[(trackIndex - 1) === -1 ? 0: trackIndex - 1];
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
@@ -70,7 +65,7 @@ export default function AudioPlayer() {
 
   useEffect(() => {
     dispatch({ type: "GET_ALL_SONGS" });
-  }, []);
+  }, [dispatch]);
 
 
   const startTimer = () => {
@@ -81,7 +76,7 @@ export default function AudioPlayer() {
       } else {
         setTrackProgress(audioRef.current.currentTime);
       }
-    }, [1000]);
+    }, [1000, startTimer]);
   };
 
   const toPrevTrack = () => {
@@ -126,7 +121,7 @@ export default function AudioPlayer() {
     } else {
       isReady.current = true;
     }
-  }, [trackIndex]);
+  }, [trackIndex, startTimer, url]);
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current);
