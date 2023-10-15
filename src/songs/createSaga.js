@@ -8,10 +8,12 @@ import axios from 'axios';
 
 function* createSongSaga({song}) {
     try {
-        const response = yield axios.post(`http://localhost:8000/songs/`, song);
+        const response = yield axios.post(`https://song-api-gsoq.onrender.com/songs/`, song);
+        console.log(response)
         yield put(createSongSuccessAction(response.data));
     } catch (error) {
-        yield put(createSongFailureAction(error));    
+        yield put(createSongFailureAction(error));   
+        console.log(error) 
     }
 }
 

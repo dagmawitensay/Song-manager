@@ -108,7 +108,6 @@ export default function Form(props) {
       return {
         ...prevValues,
         [name]: value,
-        songId: `${props.tracksLength + 1}`,
       };
     })
   }
@@ -117,8 +116,11 @@ export default function Form(props) {
     if (props.status){
       dispatch({type: 'UPDATE_SONG_BY_ID', id: props.currId, song: formValues})
     }else{
-      dispatch({type: 'CREATE_SONG', song: formValues})
+      dispatch({type: 'CREATE_SONG', song: formValues});
     }
+    setTimeout(() => {
+    }, 8000);
+
   }
 
    if (!props.modalIsOpen) return null;

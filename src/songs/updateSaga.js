@@ -5,7 +5,7 @@ import { updateSongFailureAction, updateSongSuccessAction } from '../slices/slic
 
 function* updateSongSaga({id, song}) {
     try {
-        const response = yield axios.put(`http://localhost:8000/songs/${id}`, song);
+        const response = yield axios.put(`https://song-api-gsoq.onrender.com/songs/${id}`, song);
         console.log(response.data)
         yield put(updateSongSuccessAction(response.data));
     } catch(error) {

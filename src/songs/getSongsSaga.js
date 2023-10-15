@@ -4,7 +4,7 @@ import { getAllSongsAction, getAllSongsSuccessAction, getAllSongsFailureAction }
 
 function* getSongsSaga(){
     try {
-        const response = yield axios.get("http://localhost:8000/songs");
+        const response = yield axios.get("https://song-api-gsoq.onrender.com/songs/");
         yield put(getAllSongsSuccessAction(response.data));
     } catch (error) {
         yield put(getAllSongsFailureAction(error)) 

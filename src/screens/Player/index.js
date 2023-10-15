@@ -56,13 +56,13 @@ const Artist = styled.h3`
 
 
 export default function AudioPlayer() {
-  const { id } = useParams();
-  const [trackIndex, setTrackIndex] = useState(id);
+  const { id: pageId } = useParams();
+  const [trackIndex, setTrackIndex] = useState(pageId);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const allSongs = useSelector((state) => state.allSongs.allSongs);
-  const { title, artist, artwork, url, songId } = allSongs.data[(trackIndex - 1) == -1 ? 0: trackIndex - 1];
+  const { title, artist, artwork, url, id } = allSongs.data[(trackIndex - 1) == -1 ? 0: trackIndex - 1];
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);

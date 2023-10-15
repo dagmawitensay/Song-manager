@@ -71,13 +71,26 @@ export default function Card(props) {
         <Description>{props.artist}</Description>
       </ContentContainer>
       <IconContainer>
-        <Edit fontSize="large" onClick={() => props.openModal(true, props.songId)}/>
-        <Delete fontSize="large" onClick={() => {
-          dispatch({type: 'DELETE_SONG_BY_ID', id: props.songId});
-          window.location.reload();
-          }
-          }/>
-        <Play fontSize="large" onClick={() => {navigate(`/play/${props.songId}`)}}/>
+        <Edit
+          fontSize="large"
+          onClick={() => props.openModal(true, props.songId)}
+        />
+        <Delete
+          fontSize="large"
+          onClick={() => {
+            dispatch({ type: "DELETE_SONG_BY_ID", id: props.songId });
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 4000);
+          }}
+        />
+        <Play
+          fontSize="large"
+          onClick={() => {
+            navigate(`/play/${props.songId}`);
+          }}
+        />
       </IconContainer>
     </Container>
   );

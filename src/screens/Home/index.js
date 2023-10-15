@@ -109,8 +109,8 @@ export default function Home() {
               imagesrc={track.artwork}
               title={track.title}
               artist={track.artist}
-              songId={track.songId}
-              key={track.songId}
+              songId={track.id}
+              key={track.id}
             />
           ))
         )}
