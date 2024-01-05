@@ -75,9 +75,7 @@ export default function Form(props) {
   useEffect(() => {
     if (props.status) {
       dispatch({ type: "GET_SONG_BY_ID", id: props.currId });
-    } else {
-      console.log(song.data)
-    }
+    } 
   }, [props.status, props.currId, dispatch]);
 
   useEffect(() => {
