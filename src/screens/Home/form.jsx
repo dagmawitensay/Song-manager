@@ -78,7 +78,7 @@ export default function Form(props) {
     } else {
       console.log(song.data)
     }
-  }, [props.status, props.currId, dispatch, song.data]);
+  }, [props.status, props.currId, dispatch]);
 
   useEffect(() => {
     if (props.status) {
@@ -109,7 +109,8 @@ export default function Form(props) {
         ...prevValues,
         [name]: value,
       };
-    })
+    });
+    
   }
 
   const handleSubmit = () => {
@@ -118,8 +119,6 @@ export default function Form(props) {
     }else{
       dispatch({type: 'CREATE_SONG', song: formValues});
     }
-    setTimeout(() => {
-    }, 8000);
 
   }
 
